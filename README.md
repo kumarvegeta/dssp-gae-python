@@ -1,2 +1,2 @@
-# dssp-gae-python
-DSSPP In Python On GAE
+# dsspp
+DSSPP On Python for GAE
