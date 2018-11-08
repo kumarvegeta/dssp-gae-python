@@ -15,14 +15,14 @@ import webob
 
 import os
 
-import influxdb
-
 #from sklearn.feature_extraction.text import CountVectorizer
 #from sklearn.feature_extraction.text import TfidfTransformer
 #from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy.sparse.linalg import svds
 from scipy.spatial.distance import cosine
 from scipy.sparse import csr_matrix
+from gensim.models.word2vec import Word2Vec
+import gensim
 
 from numpy import (array, dot, arccos, clip)
 from numpy.linalg import norm
@@ -42,6 +42,8 @@ from random import randint
 
 #template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 #jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape=True)
+
+results = []
 
 
 ## The handler function that generates the main page 
@@ -72,6 +74,7 @@ def mainPage(request):
 def proc_form(request):
 
     language = request.params.get(cgi.escape('language'))
+
     if language == "English":
         return webapp2.Response("""<!doctype html>
 <html lang="en">
@@ -119,68 +122,12 @@ def proc_form(request):
 
 
 def eng_results(request):
-
-    word = request.params.get(cgi.escape('word_string'))
-
-    #print(word)
-
-    #print(cgi.escape('word_string'))
-    #print(request.params)
-
-    #print webob.multidict.getone('wordstring')
-
-    vocabulary = pickle.load( open( 'vocabulary.pkl', 'rb' ) )
-
-    count_vectorizer = pickle.load( open( 'count_vectorizer.pkl', 'rb' ) )
-
-    tf_idf_matrix = pickle.load( open( 'tf_idf_matrix.pkl', 'rb' ))
-
-    if word in vocabulary:
-        word_index  = vocabulary[word]
-
-        words = vocabulary.keys()
-
-        distance_from_other_words = {}
-        vector_1 = csr_matrix(tf_idf_matrix[:,word_index])
-        vector_1 = np.array(vector_1.todense())
-
-        N = len(vocabulary) 
-
-        for i in range(N):
-            try:
-                if word==words[i]:
-		    pass
-		else:
-		    vector_2 = tf_idf_matrix[:,i]
-		    vector_2 = csr_matrix(tf_idf_matrix[:,i])
-		    vector_2 = np.array(vector_2.todense())
-		    distance_from_other_words[i] = cosine(vector_1, vector_2)
-	    except KeyError:
-                pass
-        sorted_matrix = sorted(distance_from_other_words.items(), key=operator.itemgetter(1), reverse=True)
-        results = []
-        for item in sorted_matrix:
-            w = words[item[0]]
-	    score = item[1]
-            if score !=1.0 and score !=0.0 and score >=0.9:
-                results.append([w.encode('utf-8'), score])
-        #results = [["Hello_%d"%i, np.random.random()] for i in  range(100)]
-                #print "Word:", w," Score:",score
-	#print len(results)
-        #print results
-        rendered = ""
-
-        x = range(1, len(results) + 1)
-        y = [r[1] for r in results]
-	plt.plot(x, y)
-	plt.ylabel('Cosine Similarity')
-	plt.title('Word Indices in decreasing order of cosine similarity')
-        plt.xlabel('Word Index')
-
-	plt.savefig("images/eng_results.png")
-        plt.clf()
-	
-  	for result in results:
+	rendered = ""
+	word = request.params.get(cgi.escape('word_string'))
+	word = request.params.get(cgi.escape('word_string'))
+	model = gensim.models.Word2Vec.load('raw_gutenberg_model.w2v')
+	results = model.most_similar(word)
+	for result in results:
       	    rendered += "<tr><td>%s</td><td>%0.8f</td></tr>" % (result[0], result[1])
         return webapp2.Response("""<!doctype html>
           <html lang="en">
@@ -202,7 +149,7 @@ def eng_results(request):
 
             <body>
                   
-                  <h1>List of similar words to given word:</h1>
+                  <h1>List of similar words to the given word:</h1>
                   <table>
                   <tr>
                   	<th>Word</th>
@@ -214,78 +161,18 @@ def eng_results(request):
             </body>
           </html>
           """ % rendered)
-    else:
-
-        print "word not found in corpus. Cannot continue. Redirecting to home page."
-
-        return webapp2.redirect('/')
 
 
 def esp_results(request):
 
+    rendered = ""
     word = request.params.get(cgi.escape('word_string'))
-
-    #print(word)
-
-    #print(cgi.escape('word_string'))
-    #print(request.params)
-
-    #print webob.multidict.getone('word_string')
-
-    vocabulary = pickle.load( open( 'vocabulary_spanish.pkl', 'rb' ) )
-
-    count_vectorizer = pickle.load( open( 'count_vectorizer_spanish.pkl', 'rb' ) )
-
-    tf_idf_matrix = pickle.load( open( 'tf_idf_matrix_spanish.pkl', 'rb' ))
-
-    if word in vocabulary:
-        word_index  = vocabulary[word]
-
-        words = vocabulary.keys()
-
-        distance_from_other_words = {}
-        vector_1 = csr_matrix(tf_idf_matrix[:,word_index])
-        vector_1 = np.array(vector_1.todense())
-
-        N = len(vocabulary) 
-
-        for i in range(N):
-            try:
-                if word==words[i]:
-		    pass
-		else:
-		    vector_2 = tf_idf_matrix[:,i]
-		    vector_2 = csr_matrix(tf_idf_matrix[:,i])
-		    vector_2 = np.array(vector_2.todense())
-		    distance_from_other_words[i] = cosine(vector_1, vector_2)
-	    except KeyError:
-                pass
-        sorted_matrix = sorted(distance_from_other_words.items(), key=operator.itemgetter(1), reverse=True)
-        results = []
-        for item in sorted_matrix:
-            w = words[item[0]]
-	    score = item[1]
-            if score !=1.0 and score !=0.0 and score >=0.9:
-                results.append([w.encode('utf-8'), score])
-        #results = [["Hello_%d"%i, np.random.random()] for i in  range(100)]
-                #print "Word:", w," Score:",score
-	#print len(results)
-        rendered = ""
-
-        #x = range(1, len(results) + 1)
-        #y = [r[1] for r in results]
-	#plt.plot(x, y)
-	#plt.ylabel('Similitud Coseno')
-	#plt.title('Índices de palabras en orden decreciente de similitud de coseno')
-        #plt.xlabel('Índice de palabras')
-
-	#plt.savefig("images/esp_results.png")
-        #plt.clf()
-	
-  	for result in results:
-      	    rendered += "<tr><td>%s</td><td>%0.8f</td></tr>" % (result[0], result[1])
-        return webapp2.Response("""<!doctype html>
-         <html lang="en">
+    model = gensim.models.Word2Vec.load('raw_spanish_model.w2v')
+    results = model.most_similar(word)
+    for result in results:
+        rendered += "<tr><td>%s</td><td>%0.8f</td></tr>" % (result[0].encode('utf-8'), result[1])
+    return webapp2.Response("""<!doctype html>
+          <html lang="en">
           <head>  <meta charset="utf-8">
 
           <style>
@@ -316,11 +203,6 @@ def esp_results(request):
             </body>
           </html>
           """ % rendered)
-    else:
-
-        print "palabra no encontrada en el corpus. No puede continuar. Redirigir a la página de inicio."
-
-        return webapp2.redirect('/')
 
 
 def failure_en():
