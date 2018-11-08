@@ -1,2 +1,2 @@
 # dsspp
-DSSPP On Python for GAE
+DSSPP On Python for GAE and / or Amazon AWS
