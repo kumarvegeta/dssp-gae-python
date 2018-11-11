@@ -56,7 +56,7 @@ def mainPage(request):
  </head>
  <body>
    <h1>Welcome to the DSSPP. Please choose your language:</h1>
-   <form action="proc_form" method="POST">
+   <form action="new_proc_form" method="POST">
      <table>
        <tr>
          <th>Language:</th>
@@ -70,6 +70,213 @@ def mainPage(request):
  </body>
 </html>
 """)
+
+
+
+## Corpus selection pages -rewritten
+
+
+def CorpusSelection_English(request):
+
+    #return webapp2.Response("index.html")
+    return webapp2.Response("""<!doctype html>
+<html lang="en">
+ <head> <meta charset="utf-8">
+   <title>D.S.S.P.P. On Python for GAE</title>
+ </head>
+ <body>
+   <h1>Thank you for choosing English. Please choose your corpus domain:</h1>
+   <form action="proc_form_english_domain_corpus" method="POST">
+     <table>
+       <tr>
+         <thCorpus:</th>
+         <td>Literature<input type="radio" name="domain" value="Literature" checked="yes" /><br />
+           News<input type="radio" name="domain" value="News" /><br />
+	   Technology<input type="radio" name="domain" value="Technology" /><br />
+         </td>
+       </tr>
+     </table>
+     <input type="submit" value="Submit" />
+   </form>
+ </body>
+</html>
+""")
+
+
+def CorpusSelection_Spanish(request):
+
+    #return webapp2.Response("index.html")
+    return webapp2.Response("""<!doctype html>
+<html lang="es">
+ <head> <meta charset="utf-8">
+   <title>D.S.S.P.P. En Python para GAE</title>
+ </head>
+ <body>
+   <h1>Gracias por elegir español. Por favor elige tu dominio de corpus:</h1>
+   <form action="proc_form_spanish_domain_corpus" method="POST">
+     <table>
+       <tr>
+         <thCuerpo:</th>
+         <td>Literatura<input type="radio" name="domain" value="Literatura" checked="yes" /><br />
+           Noticias<input type="radio" name="domain" value="Noticias" /><br />
+	   Tecnología<input type="radio" name="domain" value="Tecnología" /><br />
+         </td>
+       </tr>
+     </table>
+     <input type="submit" value="Enviar" />
+   </form>
+ </body>
+</html>
+""")
+
+
+def proc_form_english_domain_corpus(request):
+
+    domain = request.params.get(cgi.escape('domain'))
+    if domain == "Literature":
+        return webapp2.Response("""<!doctype html>
+<html lang="en">
+<head>  <meta charset="utf-8">
+
+<title> D.S.S.P.P. On Python For GAE </title>
+
+</head>
+
+  <body>
+        <h3>Enter the word in English to find similar words for:</h3>
+        <form method="GET" action="eng_results">
+
+          <input type="text" name="word_string"><br />
+
+          <input type="submit" name ="Submit">
+        </form>
+
+  </body>
+</html>
+""" )
+
+    if domain =="News":
+        return webapp2.Response("""<!doctype html>
+<html lang="en">
+<head>  <meta charset="utf-8">
+
+<title> D.S.S.P.P. On Python For GAE </title>
+
+</head>
+
+  <body>
+        <h3>Enter the word in English to find similar words for:</h3>
+        <form method="GET" action="eng_results">
+
+          <input type="text" name="word_string"><br />
+
+          <input type="submit" name ="Submit">
+        </form>
+
+  </body>
+</html>
+""" )
+
+
+    if domain == "Technology":
+        return webapp2.Response("""<!doctype html>
+<html lang="en">
+<head>  <meta charset="utf-8">
+
+<title> D.S.S.P.P. On Python For GAE </title>
+
+</head>
+
+  <body>
+        <h3>Enter the word in English to find similar words for:</h3>
+        <form method="GET" action="eng_results">
+
+          <input type="text" name="word_string"><br />
+
+          <input type="submit" name ="Submit">
+        </form>
+
+  </body>
+</html>
+""" )
+
+
+
+## Spanish part
+
+
+
+def proc_form_spanish_domain_corpus(request):
+
+    domain = request.params.get(cgi.escape('domain'))
+    if domain == "Literatura":
+        return webapp2.Response("""<!doctype html>
+<html lang="es">
+<head> <meta charset="utf-8">
+
+<title> D.S.S.P.P. En Python para GAE </title>
+
+</head>
+
+  <body>
+        <h3> Ingrese la palabra en español para encontrar palabras similares para: </h3> 
+         <form method="GET" action="esp_results">
+
+          <input type="text" name="word_string"><br />
+
+          <input type="submit" name ="Enviar">
+        </form>
+
+  </body>
+</html>
+""" )
+
+    if domain =="Noticias":
+        return webapp2.Response("""<!doctype html>
+<html lang="es">
+<head> <meta charset="utf-8">
+
+<title> D.S.S.P.P. En Python para GAE </title>
+
+</head>
+
+  <body>
+        <h3> Ingrese la palabra en español para encontrar palabras similares para: </h3> 
+         <form method="GET" action="esp_results">
+
+          <input type="text" name="word_string"><br />
+
+          <input type="submit" name ="Enviar">
+        </form>
+
+  </body>
+</html>
+""" )
+
+
+    if domain == "Tecnologia":
+        return webapp2.Response("""<!doctype html>
+<html lang="es">
+<head> <meta charset="utf-8">
+
+<title> D.S.S.P.P. En Python para GAE </title>
+
+</head>
+
+  <body>
+        <h3> Ingrese la palabra en español para encontrar palabras similares para: </h3> 
+         <form method="GET" action="esp_results">
+
+          <input type="text" name="word_string"><br />
+
+          <input type="submit" name ="Enviar">
+        </form>
+
+  </body>
+</html>
+""" )
+
+
 
 def proc_form(request):
 
@@ -120,10 +327,20 @@ def proc_form(request):
 """ )
 
 
+def new_proc_form(request):
+
+    language = request.params.get(cgi.escape('language'))
+    if language == "English":
+        return webapp2.redirect('/CorpusSelection_English')
+
+    if language =="Spanish":
+        return webapp2.redirect('/CorpusSelection_Spanish')
+
+
 
 def eng_results(request):
 	rendered = ""
-	word = request.params.get(cgi.escape('word_string'))
+	#word = request.params.get(cgi.escape('word_string'))
 	word = request.params.get(cgi.escape('word_string'))
 	model = gensim.models.Word2Vec.load('raw_gutenberg_model.w2v')
 	results = model.most_similar(word)
@@ -257,6 +474,11 @@ application = webapp2.WSGIApplication([
     ('/images/eng_results', render_image),
     ('/images/esp_results', render_es_image),
     ('/proc_form',proc_form),
+    ('/new_proc_form',new_proc_form),
+    ('/proc_form_english_domain_corpus',proc_form_english_domain_corpus),
+    ('/proc_form_spanish_domain_corpus',proc_form_spanish_domain_corpus),
+    ('/CorpusSelection_English',CorpusSelection_English),
+    ('/CorpusSelection_Spanish',CorpusSelection_Spanish),
     ('/eng_results',eng_results),
     ('/esp_results',esp_results)
 ], debug=True)
