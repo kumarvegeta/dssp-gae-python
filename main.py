@@ -112,15 +112,7 @@ def search():
     success_template = "results_en.html" if language == "English" else "results_es.html"
     failure_template = "failure_en.html" if language == "English" else "failure_es.html"
     if results and len(results) > 0:
-        x = range(1, len(results) + 1)
-        y = [r[1] for r in results]
         rendered = ""
-        plt.plot(x, y)
-        plt.ylabel('Cosine Similarity')
-	plt.title('Word Indices in decreasing order of cosine similarity')
-        plt.xlabel('Word Index')
-        plt.savefig("images/results.png")
-        plt.clf()
         for result in results:
             rendered += "<tr><td>%s</td><td>%0.8f</td></tr>" % (result[0], result[1])
         return flask.render_template(success_template, word=word, results=flask.Markup(rendered))
