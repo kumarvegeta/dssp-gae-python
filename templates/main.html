@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>D.S.S.P.P. On Python for GAE</title>
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/main.css">
+    <!--Scripts-->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-end">
+        <a class="navbar-brand" href="/">DSSPP</a>
+        <a class="btn btn-danger ml-auto" href="/logout">Logout</a>
+    </nav>
+    <main class="bd-masthead">
+        <div class="container">
+            <h3 class="text-center"><b>{{ user }}</b><span class="welcome-header">, Welcome to <b>DSSPP</b></span></h3>
+            <form class="form-actions col-sm-10" action="search" method="POST">
+                <fieldset class="form-group">
+                    <div class="row">
+                      <legend class="col-form-label col-sm-4 pt-0"><b>Language</b></legend>
+                      <div class="col-sm-8">
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="language" value="English" id="langEnRadio" checked>
+                          <label class="form-check-label" for="langEnRadio">
+                            English
+                          </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="language" value="Spanish" id="langEsRadio">
+                          <label class="form-check-label" for="langEsRadio">
+                            Spanish
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="form-group">
+                    <div class="row">
+                      <legend class="col-form-label col-sm-4 pt-0"><b>Domain</b></legend>
+                      <div class="col-sm-8">
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="domain" value="Literature" id="domLit" checked>
+                          <label class="form-check-label" for="domLit">
+                            Literature
+                          </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="domain" value="News" id="domNews">
+                          <label class="form-check-label" for="domNews">
+                            News
+                          </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="domain" value="Technology" id="domTech">
+                          <label class="form-check-label" for="domTech">
+                            Technology
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                </fieldset>
+                <div class="form-group row">
+                    <label for="searchWord" class="col-sm-4 col-form-label"><b>Word</b></label>
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control search-word" name="word" id="searchWord" placeholder="Word to Search" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12 text-center">
+                      <button type="submit" class="btn btn-success"><i class="fa fa-search mr-2"></i>Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

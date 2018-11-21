@@ -1,0 +1,32 @@
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: 50px auto;
+}
+
+.btn-google {
+    color: white;
+    background-color: #ea4335;
+}
+
+.form-actions {
+    margin: 0;
+    padding: 15px;
+    margin: 50px auto;
+    background-color: #f7f7f7;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+}
+
+.search-word {
+    max-width: 200px;
+}
+
+.welcome-header {
+    color: #666;
+}
+
+.table-container {
+    margin: 50px auto;
+}
