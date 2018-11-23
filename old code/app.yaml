@@ -1,0 +1,19 @@
+application: dsspp-gae-python
+version: 1
+env: flex
+runtime: python-compat
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /images
+  static_dir: images
+
+- url: /templates
+  static_dir: templates
+
+- url: /controllers
+  static_dir: controllers
+    
+- url: /.*
+  script: dsspp.application
