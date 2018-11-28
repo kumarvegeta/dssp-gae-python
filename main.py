@@ -12,12 +12,13 @@ import google.oauth2.credentials
 import googleapiclient.discovery
 import google_auth_oauthlib.flow
 
-from numpy import (array, dot, arccos, clip)
+import random
 from numpy.linalg import norm
 import json, glob
 import re, math, operator
 from collections import Counter
 import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -112,12 +113,27 @@ def search():
     success_template = "results_en.html" if language == "English" else "results_es.html"
     failure_template = "failure_en.html" if language == "English" else "failure_es.html"
     if results and len(results) > 0:
+        create_plot(word, results)
         rendered = ""
         for result in results:
             rendered += "<tr><td>%s</td><td>%0.8f</td></tr>" % (result[0], result[1])
-        return flask.render_template(success_template, word=word, results=flask.Markup(rendered))
+        image_path = "/static/results.png?dummy=%d" % random.randint(0, 1000)
+        return flask.render_template(success_template, word=word, results=flask.Markup(rendered), image_path=image_path)
     else:
         return flask.render_template(failure_template, word=word)
+
+
+def create_plot(word, results):
+    if os.path.exists("static/results.png"):
+        os.remove("static/results.png")
+    x = range(1, len(results) + 1)
+    y = [r[1] for r in results]
+    plt.plot(x, y)
+    plt.ylabel('Cosine Similarities')
+    plt.title("Word indices for '%s' in decreasing order of cosine similarity" % word)
+    plt.xlabel('Word Index')
+    plt.savefig("static/results.png")
+    plt.clf()
 
 
 @app.errorhandler(500)

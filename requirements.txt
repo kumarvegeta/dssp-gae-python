@@ -1,3 +1,4 @@
+backports.functools-lru-cache==1.5
 boto==2.49.0
 boto3==1.9.47
 botocore==1.12.47
@@ -6,6 +7,7 @@ cachetools==3.0.0
 certifi==2018.10.15
 chardet==3.0.4
 Click==7.0
+cycler==0.10.0
 docutils==0.14
 Flask==1.0.2
 futures==3.2.0
@@ -20,13 +22,16 @@ idna==2.7
 itsdangerous==1.1.0
 Jinja2==2.10
 jmespath==0.9.3
+kiwisolver==1.0.1
 MarkupSafe==1.1.0
-matplotlib==1.5.1
+matplotlib==2.2.3
 numpy==1.15.4
 oauthlib==2.1.0
 pyasn1==0.4.4
 pyasn1-modules==0.2.2
+pyparsing==2.3.0
 python-dateutil==2.7.5
+pytz==2018.7
 requests==2.20.1
 requests-oauthlib==1.0.0
 rsa==4.0
@@ -34,6 +39,7 @@ s3transfer==0.1.13
 scipy==1.1.0
 six==1.11.0
 smart-open==1.7.1
+subprocess32==3.5.3
 uritemplate==3.0.0
 urllib3==1.24.1
 Werkzeug==0.14.1
