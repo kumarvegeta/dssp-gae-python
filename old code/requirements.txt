@@ -32,7 +32,7 @@ gensim==0.13.2
 google-api-python-client==1.7.4
 google-auth==1.5.1
 google-auth-httplib2==0.0.3
-html5lib==0.999
+html5lib==0.99999999
 httplib2==0.8
 jmespath==0.9.3
 lockfile==0.8
