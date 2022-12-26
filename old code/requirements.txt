@@ -91,7 +91,7 @@ urlgrabber==3.9.1
 urllib3==1.7.1
 virtualenv==1.11.4
 webapp2==2.5.2
-wheel==0.24.0
+wheel==0.38.1
 word2vec==0.10.2
 wsgiref==0.1.2
 xdiagnose==3.6.3build2
